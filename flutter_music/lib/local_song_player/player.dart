@@ -8,7 +8,7 @@ class SongPlayer {
   List<SongInfo> _songs;
   int _position;
 
-  static SongPlayer _songPlayer = SongPlayer._internal();
+  static final SongPlayer _songPlayer = SongPlayer._internal();
   SongPlayer._internal();
 
   factory SongPlayer() => _songPlayer;
@@ -26,8 +26,8 @@ class SongPlayer {
     await audioPlayer.play(_songs[_position].filePath);
   }
 
-  void seekSong(int milisecond) {
-    Duration duration = Duration(seconds: milisecond);
+  void seekSong(int millisecond) {
+    Duration duration = Duration(seconds: millisecond);
     audioPlayer.seek(duration);
   }
 

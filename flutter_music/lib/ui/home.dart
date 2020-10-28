@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
+import 'bottom_tabs/online_song_page.dart';
 import 'playing_song_screen/playing_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -58,7 +59,7 @@ class _BottomBarState extends State<BottomBar> {
             case 'Offline':
               return OfflineSongsList();
             case 'Online':
-              return Container(color: Colors.blue.shade900);
+              return OnlineSongList();
             case 'Red':
               return Container(color: Colors.red.shade900);
             case 'Yellow':

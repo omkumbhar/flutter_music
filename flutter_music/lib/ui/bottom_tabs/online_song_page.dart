@@ -1,17 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-import 'package:flutter_music/constants.dart';
-import 'package:flutter_music/local_songs/audio_query.dart';
 
-class OfflineSongsList extends StatefulWidget {
+class OnlineSongList extends StatefulWidget {
   @override
-  _OfflineSongsListState createState() => _OfflineSongsListState();
+  _OnlineSongListState createState() => _OnlineSongListState();
 }
 
-class _OfflineSongsListState extends State<OfflineSongsList> {
-  int _selectedIndex;
+class _OnlineSongListState extends State<OnlineSongList> {
+  List<DocumentSnapshot> _list;
+  List<SongInfo> songs = [];
   List<Color> colors = [
-    Colors.transparent,
     Colors.teal[600],
     Colors.green[600],
     Colors.lime[600],
@@ -21,18 +20,22 @@ class _OfflineSongsListState extends State<OfflineSongsList> {
   ];
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: AudioQuery.getLocalSongs(),
-      builder: (BuildContext context, AsyncSnapshot<List<SongInfo>> snapshot) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('songs')
+          //.where('artist_name', isEqualTo: 'marathi')
+          //.orderBy('artist_name')
+          .orderBy('song_name')
+          .snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.none ||
             !snapshot.hasData) {
-          return Text('No songs');
+          return Text("No song");
         } else if (snapshot.hasData) {
-          List<SongInfo> songs = snapshot.data;
-          songPlayer.songsList = songs;
+          _list = snapshot.data.docs;
 
           return ListView.builder(
-            itemCount: songs.length,
+            itemCount: _list.length,
             itemBuilder: (context, index) {
               return Card(
                 color: Colors.blueGrey.withOpacity(0.6),
@@ -40,14 +43,14 @@ class _OfflineSongsListState extends State<OfflineSongsList> {
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: ListTile(
-                  selected: index == _selectedIndex,
+                  /*selected: index == _selectedIndex,*/
                   onTap: () {
-                    songPlayer.play(index);
+                    /*songPlayer.play(index);
                     setState(() {
                       _selectedIndex = index;
-                    });
+                    });*/
                   },
-                  leading: songs[index].albumArtwork == null
+                  leading: null == null
                       ? CircleAvatar(
                           backgroundColor: colors[
                               index % colors.length] /*Colors.blueAccent*/,
@@ -56,7 +59,7 @@ class _OfflineSongsListState extends State<OfflineSongsList> {
                         )
                       : null,
                   title: Text(
-                    songs[index].title,
+                    _list[index].get("song_url"),
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
