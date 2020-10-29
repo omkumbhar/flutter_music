@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:loading_animations/loading_animations.dart';
 
 class OnlineSongList extends StatefulWidget {
   @override
@@ -28,12 +29,17 @@ class _OnlineSongListState extends State<OnlineSongList> {
           .orderBy('song_name')
           .snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.connectionState == ConnectionState.none ||
-            !snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: LoadingBouncingGrid.circle(
+              size: 100.0,
+            ),
+          );
+        } else if (!snapshot.hasData) {
+          print("song");
           return Text("No song");
         } else if (snapshot.hasData) {
           _list = snapshot.data.docs;
-
           return ListView.builder(
             itemCount: _list.length,
             itemBuilder: (context, index) {
