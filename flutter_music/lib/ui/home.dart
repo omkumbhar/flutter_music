@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
+import 'bottom_tabs/onlline_song_pages/online_song_page.dart';
+import 'bottom_tabs/onlline_song_pages/online_songs_home.dart';
 import 'playing_song_screen/playing_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -15,7 +17,8 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Colors.white10
+      /*Colors.black54.withOpacity(0.5) Colors.blue.shade900*/,
       extendBody: true,
       bottomNavigationBar: PandaBar(
         backgroundColor: Colors.cyan.shade300,
@@ -58,9 +61,9 @@ class _BottomBarState extends State<BottomBar> {
             case 'Offline':
               return OfflineSongsList();
             case 'Online':
-              return Container(color: Colors.blue.shade900);
+              return OnlineSongList();
             case 'Red':
-              return Container(color: Colors.red.shade900);
+              return OnlineHome();
             case 'Yellow':
               return Container(color: Colors.yellow.shade700);
             case "Player":
