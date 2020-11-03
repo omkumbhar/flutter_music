@@ -1,73 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 
-Widget listItem(String title, String image, {List<Color> colors}) {
-  return Padding(
-    padding: EdgeInsets.all(10.0),
-    child: Shimmer(
-      duration: Duration(seconds: 3), //Default value
-      interval: Duration(seconds: 5), //Default value: Duration(seconds: 0)
-      color: Colors.white, //Default value
-      enabled: true, //Default value
-      direction: ShimmerDirection.fromLTRB(),
-      child: Container(
-        height: 170.0,
-        width: 170.0,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24.0),
-          gradient: LinearGradient(
-            colors: colors ??
-                [
-                  Colors.indigo,
-                  Colors.lightBlueAccent,
-                ],
-            begin: Alignment.centerLeft,
-            end: Alignment(1.0, 1.0),
-          ),
-        ),
-        child: Stack(
-          children: [
-            Opacity(
-              opacity: 0.3,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  image: DecorationImage(
-                    image: AssetImage(image),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Column(
-                /*mainAxisAlignment: MainAxisAlignment.center,*/
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
+import 'list_tile.dart';
 
+// ignore: must_be_immutable
 class OnlineHome extends StatefulWidget {
+  Function callback;
+  OnlineHome({this.callback});
   @override
   _OnlineHomeState createState() => _OnlineHomeState();
 }
 
 class _OnlineHomeState extends State<OnlineHome> {
+  Widget _listTile(Widget widget, {VoidCallback voidCallback}) {
+    return GestureDetector(
+      child: widget,
+      onTap: voidCallback ??
+          () {
+            print("Default function");
+          },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -87,19 +40,37 @@ class _OnlineHomeState extends State<OnlineHome> {
               )),
           Wrap(
             children: [
-              listItem("Marathi", "images/marathi.jpg", colors: [
-                Colors.yellow.shade400.withOpacity(0.6),
-                Colors.deepOrange.shade400.withOpacity(0.6)
-              ]),
-              listItem("Hindi", "images/hindi2.jpg", colors: [
-                Colors.pink.withOpacity(0.6),
-                Colors.pinkAccent.withOpacity(0.7)
-              ]),
-              listItem("English", "images/english.jpg", colors: [
-                Color(0xff175a9d).withOpacity(0.6),
-                Color(0xff56bf9c).withOpacity(0.6)
-              ]),
-              listItem("Global hits", "images/music_Logo.jpg")
+              _listTile(
+                listItem("Marathi", "images/marathi.jpg", colors: [
+                  Colors.yellow.shade400.withOpacity(0.6),
+                  Colors.deepOrange.shade400.withOpacity(0.6)
+                ]),
+                voidCallback: () {
+                  widget.callback("marathi");
+                },
+              ),
+              _listTile(
+                listItem("Hindi", "images/hindi2.jpg", colors: [
+                  Colors.pink.withOpacity(0.6),
+                  Colors.pinkAccent.withOpacity(0.7)
+                ]),
+                voidCallback: () {
+                  widget.callback("hindi");
+                },
+              ),
+              _listTile(
+                  listItem("English", "images/english.jpg", colors: [
+                    Color(0xff175a9d).withOpacity(0.6),
+                    Color(0xff56bf9c).withOpacity(0.6)
+                  ]), voidCallback: () {
+                widget.callback("english");
+              }),
+              _listTile(
+                listItem("Global hits", "images/music_Logo.jpg"),
+                voidCallback: () {
+                  widget.callback("global_hits");
+                },
+              )
             ],
           ),
         ],

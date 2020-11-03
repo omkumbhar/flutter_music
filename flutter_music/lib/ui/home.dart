@@ -13,6 +13,13 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   String page = 'Offline';
+  String query;
+  void setPage(String newPage) {
+    setState(() {
+      query = newPage;
+      page = 'Online_query';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +47,6 @@ class _BottomBarState extends State<BottomBar> {
         onFabButtonPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MusicPlayer()));
-
-//          setState(() {
-//            page = "Player";
-//          });
         },
         fabColors: [Colors.transparent, Colors.transparent],
         fabIcon: Hero(
@@ -63,11 +66,15 @@ class _BottomBarState extends State<BottomBar> {
             case 'Online':
               return OnlineSongList();
             case 'Red':
-              return OnlineHome();
+              return OnlineHome(
+                callback: setPage,
+              );
+            case 'Online_query':
+              return OnlineSongList(
+                songType: query,
+              );
             case 'Yellow':
               return Container(color: Colors.yellow.shade700);
-            case "Player":
-              return MusicPlayer();
             default:
               return Container();
           }

@@ -1,15 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:flutter_music/model/online_song.dart';
 import 'package:loading_animations/loading_animations.dart';
 
+// ignore: must_be_immutable
 class OnlineSongList extends StatefulWidget {
+  String songType;
+
+  OnlineSongList({this.songType});
+
   @override
   _OnlineSongListState createState() => _OnlineSongListState();
 }
 
 class _OnlineSongListState extends State<OnlineSongList> {
   List<DocumentSnapshot> _list;
+  List<OnlineSong> onlineSongList = [];
   List<SongInfo> songs = [];
   List<Color> colors = [
     Colors.teal[600],
@@ -19,16 +26,32 @@ class _OnlineSongListState extends State<OnlineSongList> {
     Colors.deepOrange[600],
     Colors.cyan[600]
   ];
+
+  Stream<QuerySnapshot> getSongs() async* {
+    await for (var song in FirebaseFirestore.instance
+        .collection('songs')
+        .where('song_language', isEqualTo: widget.songType ?? 'marathi')
+        //.orderBy('artist_name')
+        //.orderBy('song_name')
+        .snapshots()) {
+      yield song;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
+      stream:
+          getSongs() /*FirebaseFirestore.instance
           .collection('songs')
-          //.where('artist_name', isEqualTo: 'marathi')
+          .where('song_language', isEqualTo: widget.songType ?? 'marathi')
           //.orderBy('artist_name')
-          .orderBy('song_name')
-          .snapshots(),
+          //.orderBy('song_name')
+          .snapshots()*/
+      ,
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        // print("${snapshot.connectionState}     ${snapshot.hasData}");
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
             child: LoadingBouncingGrid.circle(
@@ -36,12 +59,26 @@ class _OnlineSongListState extends State<OnlineSongList> {
             ),
           );
         } else if (!snapshot.hasData) {
-          print("song");
-          return Text("No song");
+          //print("song");
+          return Text(
+            "No song",
+            style: TextStyle(color: Colors.white),
+          );
         } else if (snapshot.hasData) {
-          _list = snapshot.data.docs;
+          // _list = snapshot.data.docs;
+          List<QueryDocumentSnapshot> songs = snapshot.data.docs;
+
+          onlineSongList = List.generate(
+              snapshot.data.docs.length,
+              (index) => OnlineSong(
+                  artistName: songs[index].get("artist_name"),
+                  imageUrl: songs[index].get("image_url"),
+                  songLanguage: songs[index].get("song_language"),
+                  songName: songs[index].get("song_name"),
+                  songUrl: songs[index].get("song_url")));
+
           return ListView.builder(
-            itemCount: _list.length,
+            itemCount: onlineSongList.length,
             itemBuilder: (context, index) {
               return Card(
                 color: Colors.blueGrey.withOpacity(0.6),
@@ -65,7 +102,8 @@ class _OnlineSongListState extends State<OnlineSongList> {
                         )
                       : null,
                   title: Text(
-                    _list[index].get("song_url"),
+                    onlineSongList[index].songName
+                    /*_list[index].get("song_url")*/,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
@@ -77,7 +115,10 @@ class _OnlineSongListState extends State<OnlineSongList> {
             },
           );
         }
-        return null;
+        return Text(
+          "No song",
+          style: TextStyle(color: Colors.white),
+        );
       },
     );
   }
