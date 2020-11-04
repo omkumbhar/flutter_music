@@ -1,6 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_music/ui/Upload.dart';
+import 'package:provider/provider.dart';
+import './provider/auth.dart';
+import 'ui/auth_screen.dart';
 import 'ui/home.dart';
 
 void main() async {
@@ -9,19 +12,36 @@ void main() async {
   runApp(MyAppp());
 }
 
-class MyAppp extends StatefulWidget {
-  @override
-  _MyApppState createState() => _MyApppState();
-}
-
-class _MyApppState extends State<MyAppp> {
+class MyAppp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: BottomBar(),
+    return MultiProvider(
+      providers:[
+        ChangeNotifierProvider.value(
+          value:Auth()
+          ),
+      ],
+      
+    child:Consumer<Auth>(builder: (ctx, auth, _)=>MaterialApp(
+      title: 'MyShop',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        accentColor: Colors.deepOrange,
+        fontFamily: 'Lato',
+      ),
+      //home: BottomBar(),
+      home: auth.isAuth ?BottomBar():  AuthScreen(),
+    routes: {
+      Upload.routeName :(ctx) => Upload()
+    },
+
+    ),
+    )
     );
   }
 }
+
+
 
 // https://pub.dev/packages/bottom_personalized_dot_bar/install
 // https://pub.dev/packages/animations

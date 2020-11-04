@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:flutter_music/ui/Upload.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 class OnlineSongList extends StatefulWidget {
   @override
   _OnlineSongListState createState() => _OnlineSongListState();
 }
-
 class _OnlineSongListState extends State<OnlineSongList> {
   List<DocumentSnapshot> _list;
   List<SongInfo> songs = [];
@@ -19,9 +19,42 @@ class _OnlineSongListState extends State<OnlineSongList> {
     Colors.deepOrange[600],
     Colors.cyan[600]
   ];
-  @override
+@override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: const Text('Your Products'),
+  //       actions: <Widget>[
+  //         IconButton(
+  //           icon: const Icon(Icons.add),
+  //           onPressed: () {
+  //             Navigator.of(context).pushNamed(Upload.routeName);
+  //           },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  
+
+
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return new Scaffold(
+      appBar: new AppBar(
+         title: const Text('Online songs'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Upload.routeName);
+            },
+          ),
+        ],
+      ),
+
+            body: new Center(
+          child: new StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('songs')
           //.where('artist_name', isEqualTo: 'marathi')
@@ -79,6 +112,75 @@ class _OnlineSongListState extends State<OnlineSongList> {
         }
         return null;
       },
+    ),
+              
+          
+            ),
     );
   }
 }
+          
+
+        
+        
+
+    //   return StreamBuilder(
+    //   stream: FirebaseFirestore.instance
+    //       .collection('songs')
+    //       //.where('artist_name', isEqualTo: 'marathi')
+    //       //.orderBy('artist_name')
+    //       .orderBy('song_name')
+    //       .snapshots(),
+    //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return Center(
+    //         child: LoadingBouncingGrid.circle(
+    //           size: 100.0,
+    //         ),
+    //       );
+    //     } else if (!snapshot.hasData) {
+    //       print("song");
+    //       return Text("No song");
+    //     } else if (snapshot.hasData) {
+    //       _list = snapshot.data.docs;
+    //       return ListView.builder(
+    //         itemCount: _list.length,
+    //         itemBuilder: (context, index) {
+    //           return Card(
+    //             color: Colors.blueGrey.withOpacity(0.6),
+    //             shape: RoundedRectangleBorder(
+    //               borderRadius: BorderRadius.circular(10.0),
+    //             ),
+    //             child: ListTile(
+    //               /*selected: index == _selectedIndex,*/
+    //               onTap: () {
+    //                 /*songPlayer.play(index);
+    //                 setState(() {
+    //                   _selectedIndex = index;
+    //                 });*/
+    //               },
+    //               leading: null == null
+    //                   ? CircleAvatar(
+    //                       backgroundColor: colors[
+    //                           index % colors.length] /*Colors.blueAccent*/,
+    //                       child: Icon(Icons.audiotrack_rounded),
+    //                       radius: 20.0,
+    //                     )
+    //                   : null,
+    //               title: Text(
+    //                 _list[index].get("song_url"),
+    //                 style: TextStyle(
+    //                     color: Colors.white,
+    //                     fontWeight: FontWeight.w300,
+    //                     fontSize: 15.0),
+    //               ),
+    //               dense: true,
+    //             ),
+    //           );
+    //         },
+    //       );
+    //     }
+    //     return null;
+    //   },
+    // );
+  

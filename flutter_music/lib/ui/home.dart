@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/ui/Upload.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
@@ -65,7 +66,7 @@ class _BottomBarState extends State<BottomBar> {
             case 'Red':
               return OnlineHome();
             case 'Yellow':
-              return Container(color: Colors.yellow.shade700);
+              return Upload();
             case "Player":
               return MusicPlayer();
             default:
