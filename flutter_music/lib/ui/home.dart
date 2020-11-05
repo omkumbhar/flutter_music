@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
-import 'bottom_tabs/online_song_page.dart';
+import 'bottom_tabs/onlline_song_pages/online_song_page.dart';
+import 'bottom_tabs/onlline_song_pages/online_songs_home.dart';
 import 'playing_song_screen/playing_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -12,11 +13,19 @@ class BottomBar extends StatefulWidget {
 
 class _BottomBarState extends State<BottomBar> {
   String page = 'Offline';
+  String query;
+  void setPage(String newPage) {
+    setState(() {
+      query = newPage;
+      page = 'Online_query';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade900,
+      backgroundColor: Colors.white10
+      /*Colors.black54.withOpacity(0.5) Colors.blue.shade900*/,
       extendBody: true,
       bottomNavigationBar: PandaBar(
         backgroundColor: Colors.cyan.shade300,
@@ -38,10 +47,6 @@ class _BottomBarState extends State<BottomBar> {
         onFabButtonPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MusicPlayer()));
-
-//          setState(() {
-//            page = "Player";
-//          });
         },
         fabColors: [Colors.transparent, Colors.transparent],
         fabIcon: Hero(
@@ -59,13 +64,18 @@ class _BottomBarState extends State<BottomBar> {
             case 'Offline':
               return OfflineSongsList();
             case 'Online':
-              return OnlineSongList();
+              return OnlineHome(
+                callback: setPage,
+              );
+            case 'Online_query':
+              return OnlineSongList(
+                songType: query,
+              );
             case 'Red':
-              return Container(color: Colors.red.shade900);
+              return Container(color: Colors.red.shade700);
+
             case 'Yellow':
               return Container(color: Colors.yellow.shade700);
-            case "Player":
-              return MusicPlayer();
             default:
               return Container();
           }

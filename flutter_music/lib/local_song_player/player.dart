@@ -4,7 +4,7 @@ import 'package:flutter_audio_query/flutter_audio_query.dart';
 final AudioPlayer audioPlayer = AudioPlayer();
 
 class SongPlayer {
-  String _currSong;
+  
   List<SongInfo> _songs;
   int _position;
 
