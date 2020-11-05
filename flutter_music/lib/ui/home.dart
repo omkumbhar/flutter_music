@@ -64,8 +64,6 @@ class _BottomBarState extends State<BottomBar> {
             case 'Offline':
               return OfflineSongsList();
             case 'Online':
-              return OnlineSongList();
-            case 'Red':
               return OnlineHome(
                 callback: setPage,
               );
@@ -73,6 +71,9 @@ class _BottomBarState extends State<BottomBar> {
               return OnlineSongList(
                 songType: query,
               );
+            case 'Red':
+              return Container(color: Colors.red.shade700);
+
             case 'Yellow':
               return Container(color: Colors.yellow.shade700);
             default:

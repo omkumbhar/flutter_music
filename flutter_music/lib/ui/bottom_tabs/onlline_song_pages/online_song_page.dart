@@ -15,7 +15,6 @@ class OnlineSongList extends StatefulWidget {
 }
 
 class _OnlineSongListState extends State<OnlineSongList> {
-  List<DocumentSnapshot> _list;
   List<OnlineSong> onlineSongList = [];
   List<SongInfo> songs = [];
   List<Color> colors = [
@@ -41,14 +40,7 @@ class _OnlineSongListState extends State<OnlineSongList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          getSongs() /*FirebaseFirestore.instance
-          .collection('songs')
-          .where('song_language', isEqualTo: widget.songType ?? 'marathi')
-          //.orderBy('artist_name')
-          //.orderBy('song_name')
-          .snapshots()*/
-      ,
+      stream: getSongs(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         // print("${snapshot.connectionState}     ${snapshot.hasData}");
 
@@ -65,17 +57,17 @@ class _OnlineSongListState extends State<OnlineSongList> {
             style: TextStyle(color: Colors.white),
           );
         } else if (snapshot.hasData) {
-          // _list = snapshot.data.docs;
           List<QueryDocumentSnapshot> songs = snapshot.data.docs;
 
           onlineSongList = List.generate(
-              snapshot.data.docs.length,
-              (index) => OnlineSong(
-                  artistName: songs[index].get("artist_name"),
-                  imageUrl: songs[index].get("image_url"),
-                  songLanguage: songs[index].get("song_language"),
-                  songName: songs[index].get("song_name"),
-                  songUrl: songs[index].get("song_url")));
+            snapshot.data.docs.length,
+            (index) => OnlineSong(
+                artistName: songs[index].get("artist_name"),
+                imageUrl: songs[index].get("image_url"),
+                songLanguage: songs[index].get("song_language"),
+                songName: songs[index].get("song_name"),
+                songUrl: songs[index].get("song_url")),
+          );
 
           return ListView.builder(
             itemCount: onlineSongList.length,

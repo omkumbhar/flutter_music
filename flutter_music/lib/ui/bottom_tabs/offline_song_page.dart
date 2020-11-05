@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/local_songs/audio_query.dart';
+import 'package:flutter_music/ui/song_list_widgets/song_list_view.dart';
 
 class OfflineSongsList extends StatefulWidget {
   @override
@@ -10,15 +11,13 @@ class OfflineSongsList extends StatefulWidget {
 
 class _OfflineSongsListState extends State<OfflineSongsList> {
   int _selectedIndex;
-  List<Color> colors = [
-    Colors.transparent,
-    Colors.teal[600],
-    Colors.green[600],
-    Colors.lime[600],
-    Colors.amber[600],
-    Colors.deepOrange[600],
-    Colors.cyan[600]
-  ];
+  void callBack(int index) {
+    songPlayer.play(index);
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -34,37 +33,11 @@ class _OfflineSongsListState extends State<OfflineSongsList> {
           return ListView.builder(
             itemCount: songs.length,
             itemBuilder: (context, index) {
-              return Card(
-                color: Colors.blueGrey.withOpacity(0.6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: ListTile(
-                  selected: index == _selectedIndex,
-                  onTap: () {
-                    songPlayer.play(index);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  leading: songs[index].albumArtwork == null
-                      ? CircleAvatar(
-                          backgroundColor: colors[
-                              index % colors.length] /*Colors.blueAccent*/,
-                          child: Icon(Icons.audiotrack_rounded),
-                          radius: 20.0,
-                        )
-                      : null,
-                  title: Text(
-                    songs[index].title,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 15.0),
-                  ),
-                  dense: true,
-                ),
-              );
+              return songListTile(
+                  songName: songs[index].title,
+                  index: index,
+                  isSelected: index == _selectedIndex,
+                  callback: callBack);
             },
           );
         }

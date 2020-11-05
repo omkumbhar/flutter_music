@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Card songListTile(
-    {String songName, int index, bool isSelected, VoidCallback callback}) {
+    {String songName, int index, bool isSelected, Function callback}) {
   List<Color> colors = [
     Colors.teal[600],
     Colors.green[600],
@@ -20,10 +20,7 @@ Card songListTile(
       /*selected: index == _selectedIndex,*/
       selected: isSelected,
       onTap: () {
-        /*songPlayer.play(index);
-                    setState(() {
-                      _selectedIndex = index;
-                    });*/
+        callback(index);
       },
       leading: null == null
           ? CircleAvatar(
@@ -34,8 +31,7 @@ Card songListTile(
             )
           : null,
       title: Text(
-        songName
-        /*_list[index].get("song_url")*/,
+        songName,
         style: TextStyle(
             color: Colors.white, fontWeight: FontWeight.w300, fontSize: 15.0),
       ),
