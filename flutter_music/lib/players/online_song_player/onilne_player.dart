@@ -1,29 +1,22 @@
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:flutter_music/constants.dart';
+import 'package:flutter_music/model/online_song.dart';
 
-final AudioPlayer audioPlayer = AudioPlayer();
-
-class SongPlayer {
-  
-  List<SongInfo> _songs;
+class OnlineSongPlayer {
+  List<OnlineSong> _songs;
   int _position;
 
-  static final SongPlayer _songPlayer = SongPlayer._internal();
-  SongPlayer._internal();
+  static final OnlineSongPlayer _songPlayer = OnlineSongPlayer._internal();
+  OnlineSongPlayer._internal();
 
-  factory SongPlayer() => _songPlayer;
+  factory OnlineSongPlayer() => _songPlayer;
 
-  AudioPlayer get getInstance => audioPlayer;
-
-  set songsList(List<SongInfo> songs) {
+  set songsList(List<OnlineSong> songs) {
     this._songs = songs;
   }
 
-  SongInfo get getCurrentSong => _songs[_position];
-
   void play(int position) async {
     this._position = position;
-    await audioPlayer.play(_songs[_position].filePath);
+    await audioPlayer.play(_songs[_position].songUrl);
   }
 
   void seekSong(int millisecond) {
@@ -52,5 +45,3 @@ class SongPlayer {
   void pause() async => await audioPlayer.pause();
   void resume() async => await audioPlayer.resume();
 }
-
-//audioPlayer.play(songs[index].filePath);

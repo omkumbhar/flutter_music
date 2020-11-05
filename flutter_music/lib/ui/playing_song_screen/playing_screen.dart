@@ -20,6 +20,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    print(song);
+
     return Scaffold(
       body: Column(
         children: [
