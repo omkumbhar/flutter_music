@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/constants.dart';
 
 Card songListTile(
     {String songName, int index, bool isSelected, Function callback}) {
@@ -20,6 +21,7 @@ Card songListTile(
       /*selected: index == _selectedIndex,*/
       selected: isSelected,
       onTap: () {
+        if (!isLocalPlayed) isLocalPlayed = true;
         callback(index);
       },
       leading: null == null

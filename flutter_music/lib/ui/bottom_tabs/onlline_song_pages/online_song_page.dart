@@ -65,6 +65,7 @@ class _OnlineSongListState extends State<OnlineSongList> {
                 child: ListTile(
                   selected: index == _selectedIndex,
                   onTap: () {
+                    if (isLocalPlayed) isLocalPlayed = false;
                     onlineSongPlayer.play(index);
                     setState(() {
                       _selectedIndex = index;

@@ -14,6 +14,8 @@ class OnlineSongPlayer {
     this._songs = songs;
   }
 
+  OnlineSong get getCurrentSong => _songs[_position];
+
   void play(int position) async {
     this._position = position;
     await audioPlayer.play(_songs[_position].songUrl);

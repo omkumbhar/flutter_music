@@ -6,3 +6,4 @@ import 'players/online_song_player/onilne_player.dart';
 final AudioPlayer audioPlayer = AudioPlayer();
 final SongPlayer songPlayer = SongPlayer();
 final OnlineSongPlayer onlineSongPlayer = OnlineSongPlayer();
+bool isLocalPlayed = true;

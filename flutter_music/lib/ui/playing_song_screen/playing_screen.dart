@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/ui/playing_song_screen/playing_screen_controlls.dart';
 
@@ -10,18 +9,25 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayerState extends State<MusicPlayer> {
-  SongInfo song = songPlayer.getCurrentSong;
+  dynamic song;
 
-  void callback(SongInfo song) {
+  void callback(dynamic song) {
     setState(() {
       this.song = song;
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    print(song);
+  void initState() {
+    //song = songPlayer.getCurrentSong;
+    song = isLocalPlayed
+        ? songPlayer.getCurrentSong
+        : onlineSongPlayer.getCurrentSong;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
@@ -46,7 +52,6 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         gradient: LinearGradient(
                             colors: [
                           Colors.pink.shade400.withOpacity(0.4),
-//                          Colors.deepPurpleAccent
                           Colors.blue.shade900
                         ],
                             begin: Alignment.topCenter,
@@ -73,7 +78,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                         FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
-                            "${song?.title}",
+                            "${isLocalPlayed ? song?.title : song.songName}",
                             style: TextStyle(
                                 color: Colors.white.withOpacity(0.8),
                                 fontWeight: FontWeight.bold,
@@ -88,7 +93,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
                           ),
                         ),
                         Text(
-                          "${song?.artist}",
+                          "${isLocalPlayed ? song?.artist : song.artistName}",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

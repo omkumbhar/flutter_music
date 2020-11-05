@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/constants.dart';
 
 // ignore: must_be_immutable
@@ -12,7 +11,7 @@ class SongControls extends StatefulWidget {
 }
 
 class _SongControlsState extends State<SongControls> {
-  SongInfo song = songPlayer.getCurrentSong;
+  dynamic song;
   bool isView;
   bool playStopButton = true;
   Duration _position = Duration.zero;
@@ -20,14 +19,17 @@ class _SongControlsState extends State<SongControls> {
 
   @override
   void initState() {
+    song = isLocalPlayed
+        ? songPlayer.getCurrentSong
+        : onlineSongPlayer.getCurrentSong;
     isView = true;
-    songPlayer.getInstance.onAudioPositionChanged.listen((Duration p) {
+    audioPlayer.onAudioPositionChanged.listen((Duration p) {
       if (isView)
         setState(() {
           _position = p;
         });
     });
-    songPlayer.getInstance.onDurationChanged.listen((d) {
+    audioPlayer.onDurationChanged.listen((d) {
       if (isView)
         setState(() {
           _duration = d;
@@ -107,8 +109,13 @@ class _SongControlsState extends State<SongControls> {
                 flex: 1,
               ),
               _iconButton(Icons.fast_rewind_rounded, () {
-                songPlayer.previousSong();
-                this.widget.callback(songPlayer?.getCurrentSong);
+                if (isLocalPlayed) {
+                  songPlayer.previousSong();
+                  this.widget.callback(songPlayer?.getCurrentSong);
+                } else {
+                  onlineSongPlayer.previousSong();
+                  this.widget.callback(onlineSongPlayer?.getCurrentSong);
+                }
               }),
               Spacer(
                 flex: 1,
@@ -128,11 +135,13 @@ class _SongControlsState extends State<SongControls> {
                 flex: 1,
               ),
               _iconButton(Icons.fast_forward_rounded, () {
-                //print("button pressed");
-                songPlayer.nextSong();
-
-                //print(" current song ${songPlayer.getCurrentSong.title}");
-                this.widget.callback(songPlayer?.getCurrentSong);
+                if (isLocalPlayed) {
+                  songPlayer.nextSong();
+                  this.widget.callback(songPlayer?.getCurrentSong);
+                } else {
+                  onlineSongPlayer.nextSong();
+                  this.widget.callback(onlineSongPlayer?.getCurrentSong);
+                }
               }),
               Spacer(
                 flex: 2,
