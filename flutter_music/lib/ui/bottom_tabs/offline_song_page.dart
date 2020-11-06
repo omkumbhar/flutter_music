@@ -12,6 +12,7 @@ class OfflineSongsList extends StatefulWidget {
 class _OfflineSongsListState extends State<OfflineSongsList> {
   int _selectedIndex;
   void callBack(int index) {
+    if (!isLocalPlayed) isLocalPlayed = true;
     songPlayer.play(index);
     setState(() {
       _selectedIndex = index;

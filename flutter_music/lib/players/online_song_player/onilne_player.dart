@@ -27,21 +27,13 @@ class OnlineSongPlayer {
   }
 
   void nextSong() {
-    int nextPosition = ++_position;
-
-    if (nextPosition < _songs.length)
-      this.play(nextPosition);
-    else
-      this.play(0);
+    int nextPosition = ++_position == _songs.length ? 0 : _position;
+    this.play(nextPosition);
   }
 
   void previousSong() {
-    int previousPosition = --_position;
-
-    if (previousPosition < 0)
-      this.play(--_songs.length);
-    else
-      this.play(previousPosition);
+    int previousPosition = _position == 0 ? (_songs.length - 1) : --_position;
+    this.play(previousPosition);
   }
 
   void pause() async => await audioPlayer.pause();

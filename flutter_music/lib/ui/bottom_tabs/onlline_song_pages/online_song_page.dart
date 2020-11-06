@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/model/online_song.dart';
+import 'package:flutter_music/ui/song_list_widgets/song_list_view.dart';
 import 'package:loading_animations/loading_animations.dart';
 
 // ignore: must_be_immutable
@@ -17,14 +18,14 @@ class OnlineSongList extends StatefulWidget {
 class _OnlineSongListState extends State<OnlineSongList> {
   List<OnlineSong> onlineSongList = [];
   int _selectedIndex;
-  List<Color> colors = [
+  /* List<Color> colors = [
     Colors.teal[600],
     Colors.green[600],
     Colors.lime[600],
     Colors.amber[600],
     Colors.deepOrange[600],
     Colors.cyan[600]
-  ];
+  ];*/
 
   Stream<QuerySnapshot> getSongs() async* {
     await for (var song in FirebaseFirestore.instance
@@ -35,6 +36,14 @@ class _OnlineSongListState extends State<OnlineSongList> {
         .snapshots()) {
       yield song;
     }
+  }
+
+  void callBack(int index) {
+    if (isLocalPlayed) isLocalPlayed = false;
+    onlineSongPlayer.play(index);
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -57,7 +66,12 @@ class _OnlineSongListState extends State<OnlineSongList> {
           return ListView.builder(
             itemCount: onlineSongList.length,
             itemBuilder: (context, index) {
-              return Card(
+              return onlineSongListTile(
+                  songName: onlineSongList[index].songName,
+                  index: index,
+                  isSelected: index == _selectedIndex,
+                  callback: callBack);
+              /*Card(
                 color: Colors.blueGrey.withOpacity(0.6),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -87,7 +101,7 @@ class _OnlineSongListState extends State<OnlineSongList> {
                   ),
                   dense: true,
                 ),
-              );
+              );*/
             },
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
