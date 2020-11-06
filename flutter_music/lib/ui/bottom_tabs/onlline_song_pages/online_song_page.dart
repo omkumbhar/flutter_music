@@ -18,15 +18,6 @@ class OnlineSongList extends StatefulWidget {
 class _OnlineSongListState extends State<OnlineSongList> {
   List<OnlineSong> onlineSongList = [];
   int _selectedIndex;
-  /* List<Color> colors = [
-    Colors.teal[600],
-    Colors.green[600],
-    Colors.lime[600],
-    Colors.amber[600],
-    Colors.deepOrange[600],
-    Colors.cyan[600]
-  ];*/
-
   Stream<QuerySnapshot> getSongs() async* {
     await for (var song in FirebaseFirestore.instance
         .collection('songs')
@@ -71,37 +62,6 @@ class _OnlineSongListState extends State<OnlineSongList> {
                   index: index,
                   isSelected: index == _selectedIndex,
                   callback: callBack);
-              /*Card(
-                color: Colors.blueGrey.withOpacity(0.6),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: ListTile(
-                  selected: index == _selectedIndex,
-                  onTap: () {
-                    if (isLocalPlayed) isLocalPlayed = false;
-                    onlineSongPlayer.play(index);
-                    setState(() {
-                      _selectedIndex = index;
-                    });
-                  },
-                  leading: null == null
-                      ? CircleAvatar(
-                          backgroundColor: colors[index % colors.length],
-                          child: Icon(Icons.audiotrack_rounded),
-                          radius: 20.0,
-                        )
-                      : null,
-                  title: Text(
-                    onlineSongList[index].songName,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 15.0),
-                  ),
-                  dense: true,
-                ),
-              );*/
             },
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {

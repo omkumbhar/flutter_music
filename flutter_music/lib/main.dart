@@ -1,13 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_music/constants.dart';
 
+import 'firebase_auth/firebase_auth_handler.dart';
 import 'ui/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(MyAppp());
+
+  if (auth.currentUser == null) {
+    signInWithGoogle().then((value) {
+      print(value);
+    });
+  } else {
+    print("alredy loggerd in ${auth.currentUser.displayName}");
+  }
 }
 
 class MyAppp extends StatefulWidget {

@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_music/constants.dart';
 
 class FirebaseQuery {
   static final FirebaseQuery _firebaseQuery = FirebaseQuery._internal();
-  FirebaseFirestore firebaseFirestore;
   CollectionReference collectionReference;
   String collection;
   FirebaseQuery._internal();
 
   factory FirebaseQuery({String collection}) {
     if (_firebaseQuery == null) {
-      Firebase.initializeApp();
-      _firebaseQuery.firebaseFirestore = FirebaseFirestore.instance;
       _firebaseQuery.collectionReference =
-          _firebaseQuery.firebaseFirestore.collection(collection ?? "song");
+          firebaseFirestore.collection(collection ?? "song");
       return _firebaseQuery;
     } else {
       return _firebaseQuery;
