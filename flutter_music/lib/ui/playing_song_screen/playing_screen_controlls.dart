@@ -46,13 +46,14 @@ class _SongControlsState extends State<SongControls> {
   }
 
   Widget _iconButton(IconData icon, VoidCallback callback) {
-    return IconButton(
-        icon: Icon(
-          icon,
-          size: 80.0,
-          color: Colors.white.withOpacity(0.7),
-        ),
-        onPressed: callback);
+    return GestureDetector(
+      onTap: callback,
+      child: Container(
+        /*height: 80.0,
+        width: 50.0,*/
+        child: Icon(icon, size: 90.0, color: Colors.white.withOpacity(0.7)),
+      ),
+    );
   }
 
   String toMinute(Duration duration) {
@@ -106,7 +107,7 @@ class _SongControlsState extends State<SongControls> {
           Row(
             children: [
               Spacer(
-                flex: 1,
+                flex: 2,
               ),
               _iconButton(Icons.fast_rewind_rounded, () {
                 if (isLocalPlayed) {
