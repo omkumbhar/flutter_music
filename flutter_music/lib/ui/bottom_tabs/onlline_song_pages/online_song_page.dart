@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/model/online_song.dart';
+import 'package:flutter_music/online_songs/online_query.dart';
 import 'package:flutter_music/ui/song_list_widgets/song_list_view.dart';
 import 'package:loading_animations/loading_animations.dart';
 
@@ -18,16 +19,16 @@ class OnlineSongList extends StatefulWidget {
 class _OnlineSongListState extends State<OnlineSongList> {
   List<OnlineSong> onlineSongList = [];
   int _selectedIndex;
-  Stream<QuerySnapshot> getSongs() async* {
+  /*Stream<QuerySnapshot> getSongs({String songType}) async* {
     await for (var song in FirebaseFirestore.instance
         .collection('songs')
-        .where('song_language', isEqualTo: widget.songType ?? 'marathi')
+        .where('song_language', isEqualTo: songType ?? 'marathi')
         //.orderBy('artist_name')
         //.orderBy('song_name')
         .snapshots()) {
       yield song;
     }
-  }
+  }*/
 
   void callBack(int index) {
     if (isLocalPlayed) isLocalPlayed = false;
@@ -39,8 +40,9 @@ class _OnlineSongListState extends State<OnlineSongList> {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseQuery firebaseQuery = FirebaseQuery();
     return StreamBuilder(
-      stream: getSongs(),
+      stream: firebaseQuery.getSongs(songType: widget.songType),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           List<QueryDocumentSnapshot> songs = snapshot.data.docs;

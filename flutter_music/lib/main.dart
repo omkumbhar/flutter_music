@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_music/constants.dart';
 
 import 'firebase_auth/firebase_auth_handler.dart';
+import 'firebase_auth/setup_user.dart';
 import 'ui/home.dart';
 
 void main() async {
@@ -12,7 +13,7 @@ void main() async {
 
   if (auth.currentUser == null) {
     signInWithGoogle().then((value) {
-      print(value);
+      createDoc(value);
     });
   } else {
     print("alredy loggerd in ${auth.currentUser.displayName}");

@@ -2,26 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_music/constants.dart';
 
 class FirebaseQuery {
-  static final FirebaseQuery _firebaseQuery = FirebaseQuery._internal();
   CollectionReference collectionReference;
   String collection;
-  FirebaseQuery._internal();
 
-  factory FirebaseQuery({String collection}) {
-    if (_firebaseQuery == null) {
-      _firebaseQuery.collectionReference =
-          firebaseFirestore.collection(collection ?? "song");
-      return _firebaseQuery;
-    } else {
-      return _firebaseQuery;
+  FirebaseQuery({String collection}) {
+    collectionReference = firebaseFirestore.collection(collection ?? 'songs');
+  }
+
+  CollectionReference getCollectionReference() => collectionReference;
+
+  Stream<QuerySnapshot> getSongs({String songType}) async* {
+    await for (var song in this
+        .getCollectionReference()
+        .where('song_language', isEqualTo: songType ?? 'marathi')
+        //.orderBy('artist_name')
+        //.orderBy('song_name')
+        .snapshots()) {
+      yield song;
     }
   }
-
-  CollectionReference getCollectionReference() {
-    return _firebaseQuery.collectionReference;
-  }
-  /*Stream<void> getDocuments() async* {
-    Stream<QuerySnapshot> querySnapshot =
-        collectionReference.orderBy("song_name").snapshots();
-  }*/
 }
