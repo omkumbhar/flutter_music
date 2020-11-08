@@ -51,7 +51,7 @@ class _BottomBarState extends State<BottomBar> {
         fabIcon: Hero(
           tag: "music-img",
           child: CircleAvatar(
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.transparent,
             backgroundImage: AssetImage("images/music_Logo.jpg"),
             radius: 70.0,
           ),

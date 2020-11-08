@@ -1,23 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_music/constants.dart';
 
-import 'firebase_auth/firebase_auth_handler.dart';
-import 'firebase_auth/setup_user.dart';
+import 'constants.dart';
+import 'ui/auth_screen/auth_screen.dart';
 import 'ui/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyAppp());
-
-  if (auth.currentUser == null) {
-    signInWithGoogle().then((value) {
-      createDoc(value);
-    });
-  } else {
-    print("alredy loggerd in ${auth.currentUser.displayName}");
-  }
 }
 
 class MyAppp extends StatefulWidget {
@@ -26,10 +18,26 @@ class MyAppp extends StatefulWidget {
 }
 
 class _MyApppState extends State<MyAppp> {
+  User user = auth.currentUser;
+
+  void callHomePage(User user) {
+    setState(() {
+      print("main page called");
+      this.user = user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BottomBar(),
+      home: Builder(builder: (context) {
+        if (user == null) {
+          return AuthPage(callHomePage);
+        } else {
+          firebaseUser = user;
+          return BottomBar();
+        }
+      }),
     );
   }
 }

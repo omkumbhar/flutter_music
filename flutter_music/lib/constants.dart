@@ -12,3 +12,4 @@ final OnlineSongPlayer onlineSongPlayer = OnlineSongPlayer();
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+User firebaseUser;
