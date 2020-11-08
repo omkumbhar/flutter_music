@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
+import 'ui/auth_screen/auth_screen.dart';
 import 'ui/home.dart';
 
 void main() async {
@@ -15,10 +18,26 @@ class MyAppp extends StatefulWidget {
 }
 
 class _MyApppState extends State<MyAppp> {
+  User user = auth.currentUser;
+
+  void callHomePage(User user) {
+    setState(() {
+      print("main page called");
+      this.user = user;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BottomBar(),
+      home: Builder(builder: (context) {
+        if (user == null) {
+          return AuthPage(callHomePage);
+        } else {
+          firebaseUser = user;
+          return BottomBar();
+        }
+      }),
     );
   }
 }

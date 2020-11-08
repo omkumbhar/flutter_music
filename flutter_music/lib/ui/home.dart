@@ -24,8 +24,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10
-      /*Colors.black54.withOpacity(0.5) Colors.blue.shade900*/,
+      backgroundColor: Colors.white10,
       extendBody: true,
       bottomNavigationBar: PandaBar(
         backgroundColor: Colors.cyan.shade300,
@@ -52,7 +51,7 @@ class _BottomBarState extends State<BottomBar> {
         fabIcon: Hero(
           tag: "music-img",
           child: CircleAvatar(
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Colors.transparent,
             backgroundImage: AssetImage("images/music_Logo.jpg"),
             radius: 70.0,
           ),

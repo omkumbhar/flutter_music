@@ -1,10 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
-
-final AudioPlayer audioPlayer = AudioPlayer();
+import 'package:flutter_music/constants.dart';
 
 class SongPlayer {
-  
   List<SongInfo> _songs;
   int _position;
 
@@ -32,25 +30,15 @@ class SongPlayer {
   }
 
   void nextSong() {
-    int nextPosition = ++_position;
-
-    if (nextPosition < _songs.length)
-      this.play(nextPosition);
-    else
-      this.play(0);
+    int nextPosition = ++_position == _songs.length ? 0 : _position;
+    this.play(nextPosition);
   }
 
   void previousSong() {
-    int previousPosition = --_position;
-
-    if (previousPosition < 0)
-      this.play(--_songs.length);
-    else
-      this.play(previousPosition);
+    int previousPosition = _position == 0 ? (_songs.length - 1) : --_position;
+    this.play(previousPosition);
   }
 
   void pause() async => await audioPlayer.pause();
   void resume() async => await audioPlayer.resume();
 }
-
-//audioPlayer.play(songs[index].filePath);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/constants.dart';
 
 // ignore: must_be_immutable
@@ -12,7 +11,7 @@ class SongControls extends StatefulWidget {
 }
 
 class _SongControlsState extends State<SongControls> {
-  SongInfo song = songPlayer.getCurrentSong;
+  dynamic song;
   bool isView;
   bool playStopButton = true;
   Duration _position = Duration.zero;
@@ -20,14 +19,17 @@ class _SongControlsState extends State<SongControls> {
 
   @override
   void initState() {
+    song = isLocalPlayed
+        ? songPlayer.getCurrentSong
+        : onlineSongPlayer.getCurrentSong;
     isView = true;
-    songPlayer.getInstance.onAudioPositionChanged.listen((Duration p) {
+    audioPlayer.onAudioPositionChanged.listen((Duration p) {
       if (isView)
         setState(() {
           _position = p;
         });
     });
-    songPlayer.getInstance.onDurationChanged.listen((d) {
+    audioPlayer.onDurationChanged.listen((d) {
       if (isView)
         setState(() {
           _duration = d;
@@ -44,13 +46,14 @@ class _SongControlsState extends State<SongControls> {
   }
 
   Widget _iconButton(IconData icon, VoidCallback callback) {
-    return IconButton(
-        icon: Icon(
-          icon,
-          size: 80.0,
-          color: Colors.white.withOpacity(0.7),
-        ),
-        onPressed: callback);
+    return GestureDetector(
+      onTap: callback,
+      child: Container(
+        /*height: 80.0,
+        width: 50.0,*/
+        child: Icon(icon, size: 90.0, color: Colors.white.withOpacity(0.7)),
+      ),
+    );
   }
 
   String toMinute(Duration duration) {
@@ -104,11 +107,16 @@ class _SongControlsState extends State<SongControls> {
           Row(
             children: [
               Spacer(
-                flex: 1,
+                flex: 2,
               ),
               _iconButton(Icons.fast_rewind_rounded, () {
-                songPlayer.previousSong();
-                this.widget.callback(songPlayer?.getCurrentSong);
+                if (isLocalPlayed) {
+                  songPlayer.previousSong();
+                  this.widget.callback(songPlayer?.getCurrentSong);
+                } else {
+                  onlineSongPlayer.previousSong();
+                  this.widget.callback(onlineSongPlayer?.getCurrentSong);
+                }
               }),
               Spacer(
                 flex: 1,
@@ -128,11 +136,13 @@ class _SongControlsState extends State<SongControls> {
                 flex: 1,
               ),
               _iconButton(Icons.fast_forward_rounded, () {
-                //print("button pressed");
-                songPlayer.nextSong();
-
-                //print(" current song ${songPlayer.getCurrentSong.title}");
-                this.widget.callback(songPlayer?.getCurrentSong);
+                if (isLocalPlayed) {
+                  songPlayer.nextSong();
+                  this.widget.callback(songPlayer?.getCurrentSong);
+                } else {
+                  onlineSongPlayer.nextSong();
+                  this.widget.callback(onlineSongPlayer?.getCurrentSong);
+                }
               }),
               Spacer(
                 flex: 2,
