@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/ui/bottom_tabs/uploaded_song_screen/uploaded_song.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
@@ -34,7 +35,7 @@ class _BottomBarState extends State<BottomBar> {
           PandaBarButtonData(
               id: 'Online', icon: Icons.cloud_outlined, title: 'Online'),
           PandaBarButtonData(
-              id: 'Red', icon: Icons.account_balance_wallet, title: 'Red'),
+              id: 'Red', icon: Icons.account_balance_wallet, title: 'My Songs'),
           PandaBarButtonData(
               id: 'Yellow', icon: Icons.notifications, title: 'Yellow'),
         ],
@@ -71,7 +72,7 @@ class _BottomBarState extends State<BottomBar> {
                 songType: query,
               );
             case 'Red':
-              return Container(color: Colors.red.shade700);
+              return UploadSong();
 
             case 'Yellow':
               return Container(color: Colors.yellow.shade700);
