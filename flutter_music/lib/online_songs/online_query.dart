@@ -21,4 +21,15 @@ class FirebaseQuery {
       yield song;
     }
   }
+
+  Stream<QuerySnapshot> getUploadedSongs() async* {
+    await for (var song in this
+        .getCollectionReference()
+//        .where('song_language', isEqualTo: songType ?? 'marathi')
+        //.orderBy('artist_name')
+        //.orderBy('song_name')
+        .snapshots()) {
+      yield song;
+    }
+  }
 }
