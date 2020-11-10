@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/local_songs/audio_query.dart';
 
+import 'upload_visuals.dart';
+
 List<Color> colors = [
   Colors.teal[600],
   Colors.green[600],
@@ -70,8 +72,14 @@ class _UploadScreenState extends State<UploadScreen> {
       padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
       child: ElevatedButton(
         onPressed: () {
+          _selectedIndex.forEach((index) {
+            selectedSongs.add(songs[index]);
+          });
+
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => UploadScreen()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => UploadSongView(selectedSongs)));
         },
         style: ButtonStyle(
             overlayColor:
@@ -125,9 +133,6 @@ class _UploadScreenState extends State<UploadScreen> {
                   return Text('No songs');
                 } else if (snapshot.hasData) {
                   songs = snapshot.data;
-                  //songPlayer.songsList = songs;
-                  //uploadSong(songs[0].filePath);
-
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: songs.length,
@@ -143,46 +148,6 @@ class _UploadScreenState extends State<UploadScreen> {
                 return null;
               },
             ),
-            /*Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UploadScreen()));
-                },
-                style: ButtonStyle(
-                    overlayColor: MaterialStateProperty.all<Color>(
-                        Colors.grey.withOpacity(0.6)),
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                    shadowColor: MaterialStateProperty.all<Color>(
-                        Colors.white.withOpacity(0.5)),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                        EdgeInsets.all(5.0))),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      child: Image(
-                        image: AssetImage("images/google_logo.png"),
-                        height: 25.0,
-                        width: 25.0,
-                      ),
-                      padding: EdgeInsets.only(right: 5.0),
-                    ),
-                    Text(
-                      "Upload selected songs",
-                      style: TextStyle(
-                          color: Colors.lightBlue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0),
-                    )
-                  ],
-                ),
-              ),
-            ),*/
           ],
         ),
       ),
