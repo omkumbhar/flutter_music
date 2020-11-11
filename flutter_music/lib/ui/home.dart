@@ -41,7 +41,7 @@ class _BottomBarState extends State<BottomBar> {
           PandaBarButtonData(
               id: 'UserProfile',
               icon: Icons.account_circle_outlined,
-              title: 'Yellow'),
+              title: 'UserProfile'),
         ],
         onChange: (id) {
           setState(() {
