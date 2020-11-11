@@ -35,9 +35,13 @@ class _BottomBarState extends State<BottomBar> {
           PandaBarButtonData(
               id: 'Online', icon: Icons.cloud_outlined, title: 'Online'),
           PandaBarButtonData(
-              id: 'Red', icon: Icons.account_balance_wallet, title: 'My Songs'),
+              id: 'UploadSong',
+              icon: Icons.cloud_upload_outlined,
+              title: 'My Space'),
           PandaBarButtonData(
-              id: 'Yellow', icon: Icons.notifications, title: 'Yellow'),
+              id: 'UserProfile',
+              icon: Icons.account_circle_outlined,
+              title: 'Yellow'),
         ],
         onChange: (id) {
           setState(() {
@@ -71,10 +75,10 @@ class _BottomBarState extends State<BottomBar> {
               return OnlineSongList(
                 songType: query,
               );
-            case 'Red':
+            case 'UploadSong':
               return UploadSong();
 
-            case 'Yellow':
+            case 'UserProfile':
               return Container(color: Colors.yellow.shade700);
             default:
               return Container();
