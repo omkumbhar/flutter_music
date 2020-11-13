@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/constants.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 Widget listItem(String title, String image, {List<Color> colors}) {
@@ -18,8 +19,8 @@ Widget listItem(String title, String image, {List<Color> colors}) {
           gradient: LinearGradient(
             colors: colors ??
                 [
-                  Colors.indigo,
-                  Colors.lightBlueAccent,
+                  PINK.withOpacity(0.6),
+                  YELLOW.withOpacity(0.6),
                 ],
             begin: Alignment.centerLeft,
             end: Alignment(1.0, 1.0),
@@ -47,7 +48,7 @@ Widget listItem(String title, String image, {List<Color> colors}) {
                   Text(
                     title,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: TEXT_COLOR_WHITE,
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
                     ),

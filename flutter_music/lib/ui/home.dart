@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/ui/bottom_tabs/uploaded_song_screen/uploaded_song.dart';
 import 'package:pandabar/pandabar.dart';
 
 import 'bottom_tabs/offline_song_page.dart';
 import 'bottom_tabs/onlline_song_pages/online_song_page.dart';
 import 'bottom_tabs/onlline_song_pages/online_songs_home.dart';
+import 'bottom_tabs/profile/profile.dart';
 import 'playing_song_screen/playing_screen.dart';
 
 class BottomBar extends StatefulWidget {
@@ -25,10 +27,12 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: VIOLET,
       extendBody: true,
       bottomNavigationBar: PandaBar(
-        backgroundColor: Colors.cyan.shade300,
+        buttonColor: PINK,
+        buttonSelectedColor: Colors.white,
+        backgroundColor: YELLOW,
         buttonData: [
           PandaBarButtonData(
               id: 'Offline', icon: Icons.cloud_off, title: 'Offline'),
@@ -57,7 +61,7 @@ class _BottomBarState extends State<BottomBar> {
           tag: "music-img",
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
-            backgroundImage: AssetImage("images/music_Logo.jpg"),
+            backgroundImage: AssetImage("images/playing.png"),
             radius: 70.0,
           ),
         ),
@@ -79,7 +83,7 @@ class _BottomBarState extends State<BottomBar> {
               return UploadSong();
 
             case 'UserProfile':
-              return Container(color: Colors.yellow.shade700);
+              return Profile();
             default:
               return Container();
           }

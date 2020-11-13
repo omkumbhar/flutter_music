@@ -65,7 +65,7 @@ class _SongControlsState extends State<SongControls> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue.shade900 /*Colors.deepPurpleAccent*/,
+      color: PINK /*Colors.blue.shade900 Colors.deepPurpleAccent*/,
       alignment: Alignment.topCenter,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -121,7 +121,7 @@ class _SongControlsState extends State<SongControls> {
               Spacer(
                 flex: 1,
               ),
-              _iconButton(playStopButton ? Icons.play_arrow : Icons.pause, () {
+              _iconButton(playStopButton ? Icons.pause : Icons.play_arrow, () {
                 setState(() {
                   if (playStopButton) {
                     playStopButton = false;
