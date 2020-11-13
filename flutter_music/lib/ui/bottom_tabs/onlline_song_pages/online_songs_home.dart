@@ -41,32 +41,28 @@ class _OnlineHomeState extends State<OnlineHome> {
           Wrap(
             children: [
               _listTile(
-                listItem(
-                  "MARATHI",
-                  "images/marathi.jpg",
-                ),
+                listItem("MARATHI", "images/marathi.jpg",
+                    size: MediaQuery.of(context).size.width * 0.4379),
                 voidCallback: () {
                   widget.callback("marathi");
                 },
               ),
               _listTile(
-                listItem(
-                  "HINDI",
-                  "images/hindi2.jpg",
-                ),
+                listItem("HINDI", "images/hindi2.jpg",
+                    size: MediaQuery.of(context).size.width * 0.4379),
                 voidCallback: () {
                   widget.callback("hindi");
                 },
               ),
               _listTile(
-                  listItem(
-                    "ENGLISH",
-                    "images/english.jpg",
-                  ), voidCallback: () {
+                  listItem("ENGLISH", "images/english.jpg",
+                      size: MediaQuery.of(context).size.width * 0.4379),
+                  voidCallback: () {
                 widget.callback("english");
               }),
               _listTile(
-                listItem("GLOBAL HITS", "images/music_Logo.jpg"),
+                listItem("GLOBAL HITS", "images/playing.JPG",
+                    size: MediaQuery.of(context).size.width * 0.4379),
                 voidCallback: () {
                   widget.callback("global_hits");
                 },

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/model/online_song.dart';
@@ -48,16 +49,21 @@ class _UploadSongState extends State<UploadSong> {
                 );
                 onlineSongPlayer.songsList =
                     onlineSongList; // give list to player
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: onlineSongList.length,
-                  itemBuilder: (context, index) {
-                    return onlineSongListTile(
-                        songName: onlineSongList[index].songName,
-                        index: index,
-                        isSelected: index == _selectedIndex,
-                        callback: callBack);
-                  },
+                return Container(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: onlineSongList.length,
+                      itemBuilder: (context, index) {
+                        return onlineSongListTile(
+                            songName: onlineSongList[index].songName,
+                            index: index,
+                            isSelected: index == _selectedIndex,
+                            callback: callBack);
+                      },
+                    ),
+                  ),
                 );
               } else if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(

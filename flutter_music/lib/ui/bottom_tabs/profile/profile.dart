@@ -20,8 +20,8 @@ class _ProfileState extends State<Profile> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight)),
           ),
-          Container(
-            child: SafeArea(
+          SafeArea(
+            child: Container(
               child: Column(
                 children: [
                   CircleAvatar(
@@ -29,11 +29,60 @@ class _ProfileState extends State<Profile> {
                     /*radius: 75.0,*/
                     minRadius: 50.0,
                     maxRadius: 60.0,
-                  )
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    firebaseUser.displayName,
+                    style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    firebaseUser.email,
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
                 ],
               ),
             ),
-          )
+          ),
+          Align(
+            alignment: Alignment(0.5, 0.72),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              width: double.maxFinite,
+              child: ElevatedButton(
+                onPressed: () {
+                  /* Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UploadScreen()));*/
+                },
+                style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all<Color>(
+                        Colors.grey.withOpacity(0.6)),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    shadowColor: MaterialStateProperty.all<Color>(
+                        Colors.white.withOpacity(0.5)),
+                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                        EdgeInsets.all(5.0))),
+                child: Text(
+                  "Logout",
+                  style: TextStyle(
+                      color: Colors.lightBlue,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

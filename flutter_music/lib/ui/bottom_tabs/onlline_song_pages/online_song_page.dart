@@ -19,16 +19,6 @@ class OnlineSongList extends StatefulWidget {
 class _OnlineSongListState extends State<OnlineSongList> {
   List<OnlineSong> onlineSongList = [];
   int _selectedIndex;
-  /*Stream<QuerySnapshot> getSongs({String songType}) async* {
-    await for (var song in FirebaseFirestore.instance
-        .collection('songs')
-        .where('song_language', isEqualTo: songType ?? 'marathi')
-        //.orderBy('artist_name')
-        //.orderBy('song_name')
-        .snapshots()) {
-      yield song;
-    }
-  }*/
 
   void callBack(int index) {
     if (isLocalPlayed) isLocalPlayed = false;
@@ -36,6 +26,12 @@ class _OnlineSongListState extends State<OnlineSongList> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -56,15 +52,20 @@ class _OnlineSongListState extends State<OnlineSongList> {
                 songUrl: songs[index].get("song_url")),
           );
           onlineSongPlayer.songsList = onlineSongList; // give list to player
-          return ListView.builder(
-            itemCount: onlineSongList.length,
-            itemBuilder: (context, index) {
-              return onlineSongListTile(
-                  songName: onlineSongList[index].songName,
-                  index: index,
-                  isSelected: index == _selectedIndex,
-                  callback: callBack);
-            },
+          return Container(
+            child: Padding(
+              padding: EdgeInsets.only(top: 10.0),
+              child: ListView.builder(
+                itemCount: onlineSongList.length,
+                itemBuilder: (context, index) {
+                  return onlineSongListTile(
+                      songName: onlineSongList[index].songName,
+                      index: index,
+                      isSelected: index == _selectedIndex,
+                      callback: callBack);
+                },
+              ),
+            ),
           );
         } else if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(

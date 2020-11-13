@@ -31,15 +31,20 @@ class _OfflineSongsListState extends State<OfflineSongsList> {
           List<SongInfo> songs = snapshot.data;
           songPlayer.songsList = songs;
 
-          return ListView.builder(
-            itemCount: songs.length,
-            itemBuilder: (context, index) {
-              return songListTile(
-                  songName: songs[index].title,
-                  index: index,
-                  isSelected: index == _selectedIndex,
-                  callback: callBack);
-            },
+          return Container(
+            child: Padding(
+              padding: EdgeInsets.only(top: 10.0),
+              child: ListView.builder(
+                itemCount: songs.length,
+                itemBuilder: (context, index) {
+                  return songListTile(
+                      songName: songs[index].title,
+                      index: index,
+                      isSelected: index == _selectedIndex,
+                      callback: callBack);
+                },
+              ),
+            ),
           );
         }
         return null;
