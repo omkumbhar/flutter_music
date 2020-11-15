@@ -29,6 +29,7 @@ class _MusicPlayerState extends State<MusicPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
@@ -42,8 +43,8 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("images/music_Logo.jpg"),
-                            fit: BoxFit.cover),
+                            image: AssetImage("images/playing.png"),
+                            fit: BoxFit.contain),
                       ),
                     ),
                   ),
@@ -51,8 +52,10 @@ class _MusicPlayerState extends State<MusicPlayer> {
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [
-                          Colors.pink.shade400.withOpacity(0.4),
-                          Colors.blue.shade900
+                          TEXT_COLOR_WHITE.withOpacity(0.4),
+                          PINK
+                          /*Colors.pink.shade400.withOpacity(0.4),
+                          Colors.blue.shade900*/
                         ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter)),

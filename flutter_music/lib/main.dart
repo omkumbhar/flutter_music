@@ -22,7 +22,6 @@ class _MyApppState extends State<MyAppp> {
 
   void callHomePage(User user) {
     setState(() {
-      print("main page called");
       this.user = user;
     });
   }
@@ -32,7 +31,7 @@ class _MyApppState extends State<MyAppp> {
     return MaterialApp(
       home: Builder(builder: (context) {
         if (user == null) {
-          return AuthPage(callHomePage);
+          return AuthPage(callHomePage); /*BottomBar();*/
         } else {
           firebaseUser = user;
           return BottomBar();

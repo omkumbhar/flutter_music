@@ -121,34 +121,29 @@ class _UploadScreenState extends State<UploadScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       backgroundColor: Colors.indigo,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FutureBuilder(
-              future: AudioQuery.getLocalSongs(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<SongInfo>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.none ||
-                    !snapshot.hasData) {
-                  return Text('No songs');
-                } else if (snapshot.hasData) {
-                  songs = snapshot.data;
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: songs.length,
-                    itemBuilder: (context, index) {
-                      return songListTile(
-                          songName: songs[index].title,
-                          index: index,
-                          isSelected: _selectedIndex.contains(index),
-                          callback: addToSelected);
-                    },
-                  );
-                }
-                return null;
-              },
-            ),
-          ],
+        child: FutureBuilder(
+          future: AudioQuery.getLocalSongs(),
+          builder:
+              (BuildContext context, AsyncSnapshot<List<SongInfo>> snapshot) {
+            if (snapshot.connectionState == ConnectionState.none ||
+                !snapshot.hasData) {
+              return Text('No songs');
+            } else if (snapshot.hasData) {
+              songs = snapshot.data;
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: songs.length,
+                itemBuilder: (context, index) {
+                  return songListTile(
+                      songName: songs[index].title,
+                      index: index,
+                      isSelected: _selectedIndex.contains(index),
+                      callback: addToSelected);
+                },
+              );
+            }
+            return null;
+          },
         ),
       ),
     );

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_music/constants.dart';
 
 List<Color> colors = [
-  Colors.teal[600],
+  /*Colors.teal[600],
   Colors.green[600],
   Colors.lime[600],
   Colors.amber[600],
   Colors.deepOrange[600],
-  Colors.cyan[600]
+  Colors.cyan[600]*/
+  TEXT_COLOR_WHITE
 ];
 
 Card songListTile(
     {String songName, int index, bool isSelected, Function callback}) {
   return Card(
-    color: Colors.blueGrey.withOpacity(0.6),
+    color: TEXT_COLOR_WHITE.withOpacity(0.6),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -23,16 +25,18 @@ Card songListTile(
       },
       leading: null == null
           ? CircleAvatar(
-              backgroundColor:
-                  colors[index % colors.length] /*Colors.blueAccent*/,
-              child: Icon(Icons.audiotrack_rounded),
+              backgroundColor: YELLOW.withOpacity(1) /*Colors.blueAccent*/,
+              child: Icon(
+                Icons.audiotrack_rounded,
+                color: PINK,
+              ),
               radius: 20.0,
             )
           : null,
       title: Text(
         songName,
         style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w300, fontSize: 15.0),
+            color: VIOLET, fontWeight: FontWeight.w500, fontSize: 15.0),
       ),
       dense: true,
     ),
@@ -42,7 +46,7 @@ Card songListTile(
 Card onlineSongListTile(
     {String songName, int index, bool isSelected, Function callback}) {
   return Card(
-    color: Colors.blueGrey.withOpacity(0.6),
+    color: TEXT_COLOR_WHITE.withOpacity(0.6),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0),
     ),
@@ -53,15 +57,18 @@ Card onlineSongListTile(
       },
       leading: null == null
           ? CircleAvatar(
-              backgroundColor: colors[index % colors.length],
-              child: Icon(Icons.audiotrack_rounded),
+              backgroundColor: YELLOW.withOpacity(1) /*Colors.blueAccent*/,
+              child: Icon(
+                Icons.audiotrack_rounded,
+                color: PINK,
+              ),
               radius: 20.0,
             )
           : null,
       title: Text(
         songName,
         style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w300, fontSize: 15.0),
+            color: VIOLET, fontWeight: FontWeight.w500, fontSize: 15.0),
       ),
       dense: true,
     ),
