@@ -1,9 +1,11 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/upload_songs/create_song_doc.dart';
 import 'package:flutter_music/upload_songs/upload_song.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class UploadSongView extends StatefulWidget {
   final List<SongInfo> selectedSongs;
@@ -45,49 +47,19 @@ class _UploadSongViewState extends State<UploadSongView> {
   @override
   Widget build(BuildContext context) {
     List<SongInfo> songs = widget.selectedSongs;
-    /*ListView.separated(itemBuilder: (context, index) {
-      SongUpload upload =
-      SongUpload(songs[index].filePath, songs[index].displayName);
-      upload.uploadSong();
-
-      return UploadListItem(songs[index].title, upload.getTotalBytes(),
-          upload.getTransferredBytes());
-      */ /*listItem(songName: songs[index].title);*/ /*
-    }, separatorBuilder: (context, index) {
-
-      return SizedBox(height: 20.0,);
-
-    }, itemCount: songs.length);*/
     return Scaffold(
       body: SafeArea(
           child: ListView.separated(
               itemBuilder: (context, index) {
-                SongUpload upload =
-                    SongUpload(songs[index].filePath, songs[index].displayName);
-                //upload.uploadSong();
-
                 return UploadListItem(songs[index]);
                 /*listItem(songName: songs[index].title);*/
               },
               separatorBuilder: (context, index) {
                 return SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 );
               },
-              itemCount: songs.length)
-          /*ListView.builder(
-          itemCount: songs.length,
-          itemBuilder: (context, index) {
-            SongUpload upload =
-                SongUpload(songs[index].filePath, songs[index].displayName);
-            upload.uploadSong();
-
-            return UploadListItem(songs[index].title, upload.getTotalBytes(),
-                upload.getTransferredBytes());
-            */ /*listItem(songName: songs[index].title);*/ /*
-          },
-        ),*/
-          ),
+              itemCount: songs.length)),
     );
   }
 
@@ -99,7 +71,7 @@ class _UploadSongViewState extends State<UploadSongView> {
 }
 
 class UploadListItem extends StatefulWidget {
-  SongInfo songInfo;
+  final SongInfo songInfo;
 
   UploadListItem(this.songInfo);
   @override
@@ -120,14 +92,19 @@ class _UploadListItemState extends State<UploadListItem> {
     upload = SongUpload(song.filePath, song.displayName);
     uploadTask = upload.uploadSong();
 
-    uploadTask.whenComplete(() => createDoc());
+    uploadTask.whenComplete(() {
+      createDoc();
+      /*Navigator.push(
+          context, MaterialPageRoute(builder: (context) => BottomBar()));*/
+    });
 
     upload.getTotalBytes().listen((bytes) {
       totalBytes = bytes;
     });
     upload.getTransferredBytes().listen((bytes) {
       setState(() {
-        width = double.maxFinite * (bytes / totalBytes);
+        width =
+            (MediaQuery.of(context).size.width - 20.0) * (bytes / totalBytes);
       });
     });
 
@@ -142,26 +119,39 @@ class _UploadListItemState extends State<UploadListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Stack(
-        children: [
-          Container(
-            height: 75.0,
-            width: width ?? 0.0,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.greenAccent.shade700),
-          ),
-          Container(
-            height: 75.0,
-            width: double.maxFinite,
-            child: Center(
-              child: Text(song.title),
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Shimmer(
+        duration: Duration(seconds: 3), //Default value
+        interval: Duration(seconds: 1), //Default value: Duration(seconds: 0)
+        color: Colors.amberAccent, //Default value
+        enabled: true, //Default value
+        direction: ShimmerDirection.fromLeftToRight(),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              height: 60.0,
+              width: width ?? 0.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: Colors.greenAccent.shade700),
             ),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                color: Colors.transparent),
-          )
-        ],
+            Container(
+              height: 60.0,
+              width: double.maxFinite,
+              child: Center(
+                child: Text(
+                  song.title,
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  border: Border.all(color: Colors.greenAccent),
+                  color: Colors.transparent),
+            )
+          ],
+        ),
       ),
     );
   }
