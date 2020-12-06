@@ -107,11 +107,18 @@ class _UploadSongState extends State<UploadSong> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(right: 5.0),
-                    child: Image(
+                    child: Icon(
+                      Icons.cloud_upload,
+                      size: 25.0,
+                      color: VIOLET,
+                    )
+
+                    /*Image(
                       image: AssetImage("images/google_logo.png"),
                       height: 25.0,
                       width: 25.0,
-                    ),
+                    )*/
+                    ,
                   ),
                   Text(
                     "Upload songs",

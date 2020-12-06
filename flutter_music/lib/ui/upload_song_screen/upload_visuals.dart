@@ -1,7 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
 import 'package:flutter_music/upload_songs/create_song_doc.dart';
 import 'package:flutter_music/upload_songs/upload_song.dart';
@@ -18,7 +17,7 @@ class UploadSongView extends StatefulWidget {
 class _UploadSongViewState extends State<UploadSongView> {
   double s = double.maxFinite;
 
-  Card listItem({String songName, double width, Stream<int> stream}) {
+/*  Card listItem({String songName, double width, Stream<int> stream}) {
     return Card(
       child: Stack(
         children: [
@@ -42,7 +41,7 @@ class _UploadSongViewState extends State<UploadSongView> {
         ],
       ),
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -127,22 +126,28 @@ class _UploadListItemState extends State<UploadListItem> {
         enabled: true, //Default value
         direction: ShimmerDirection.fromLeftToRight(),
         child: Stack(
-          alignment: Alignment.center,
+          //alignment: Alignment.center,
           children: [
-            Container(
-              height: 60.0,
-              width: width ?? 0.0,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.0),
-                  color: Colors.greenAccent.shade700),
+            Positioned(
+              left: 0,
+              child: Container(
+                height: 60.0,
+                width: width ?? 0.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.greenAccent.shade700),
+              ),
             ),
             Container(
               height: 60.0,
               width: double.maxFinite,
               child: Center(
-                child: Text(
-                  song.title,
-                  style: TextStyle(fontSize: 20.0),
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(
+                    "${song.title.length > 35 ? song.title.substring(0, 35) + "..." : song.title}",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
                 ),
               ),
               decoration: BoxDecoration(

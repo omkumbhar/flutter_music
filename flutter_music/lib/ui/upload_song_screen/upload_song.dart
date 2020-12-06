@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_audio_query/flutter_audio_query.dart';
+import 'package:flutter_music/constants.dart';
 import 'package:flutter_music/local_songs/audio_query.dart';
 
 import 'upload_visuals.dart';
@@ -94,10 +95,10 @@ class _UploadScreenState extends State<UploadScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              child: Image(
-                image: AssetImage("images/google_logo.png"),
-                height: 25.0,
-                width: 25.0,
+              child: Icon(
+                Icons.cloud_upload,
+                size: 25.0,
+                color: VIOLET,
               ),
               padding: EdgeInsets.only(right: 5.0),
             ),
@@ -117,9 +118,33 @@ class _UploadScreenState extends State<UploadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: fabButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      /*floatingActionButton: fabButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,*/
       backgroundColor: Colors.indigo,
+      appBar: AppBar(
+        backgroundColor: VIOLET,
+        title: Text('Selected ${_selectedIndex.length}'),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.cloud_upload,
+              size: 25.0,
+              color: Colors.white,
+            ),
+            tooltip: 'Upload Songs',
+            onPressed: () {
+              _selectedIndex.forEach((index) {
+                selectedSongs.add(songs[index]);
+              });
+
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UploadSongView(selectedSongs)));
+            },
+          )
+        ],
+      ),
       body: SafeArea(
         child: FutureBuilder(
           future: AudioQuery.getLocalSongs(),
@@ -131,7 +156,7 @@ class _UploadScreenState extends State<UploadScreen> {
             } else if (snapshot.hasData) {
               songs = snapshot.data;
               return ListView.builder(
-                shrinkWrap: true,
+                /*shrinkWrap: true,*/
                 itemCount: songs.length,
                 itemBuilder: (context, index) {
                   return songListTile(

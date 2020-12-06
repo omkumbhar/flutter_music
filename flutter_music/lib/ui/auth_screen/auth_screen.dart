@@ -40,7 +40,7 @@ class AuthPage extends StatelessWidget {
                   "My Music",
                   style: TextStyle(
                       fontSize: 50.0,
-                      color: Colors.purpleAccent,
+                      color: Colors.white,
                       fontStyle: FontStyle.italic),
                 ),
                 Spacer(
