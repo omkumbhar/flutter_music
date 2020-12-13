@@ -17,10 +17,10 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   String page = 'Offline';
   String query;
-  void setPage(String newPage) {
+  void setPage(List<String> newPage) {
     setState(() {
-      query = newPage;
-      page = 'Online_query';
+      query = newPage[0];
+      page = newPage[1] == "" ? 'Online_query' : newPage[1];
     });
   }
 
@@ -78,6 +78,7 @@ class _BottomBarState extends State<BottomBar> {
             case 'Online_query':
               return OnlineSongList(
                 songType: query,
+                callback: setPage,
               );
             case 'UploadSong':
               return UploadSong();

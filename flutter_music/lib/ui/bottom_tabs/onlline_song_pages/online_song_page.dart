@@ -9,8 +9,8 @@ import 'package:loading_animations/loading_animations.dart';
 // ignore: must_be_immutable
 class OnlineSongList extends StatefulWidget {
   String songType;
-
-  OnlineSongList({this.songType});
+  Function callback;
+  OnlineSongList({this.songType, this.callback});
 
   @override
   _OnlineSongListState createState() => _OnlineSongListState();
@@ -34,58 +34,66 @@ class _OnlineSongListState extends State<OnlineSongList> {
     super.dispose();
   }
 
+  Future<bool> _onBackPressed() async {
+    widget.callback(["", "Online"]);
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final FirebaseQuery firebaseQuery = FirebaseQuery();
-    return StreamBuilder(
-      stream: firebaseQuery.getSongs(songType: widget.songType),
-      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData) {
-          List<QueryDocumentSnapshot> songs = snapshot.data.docs;
-          onlineSongList = List.generate(
-            snapshot.data.docs.length,
-            (index) => OnlineSong(
-                artistName: songs[index].get("artist_name"),
-                imageUrl: songs[index].get("image_url"),
-                songLanguage: songs[index].get("song_language"),
-                songName: songs[index].get("song_name"),
-                songUrl: songs[index].get("song_url")),
-          );
-          onlineSongPlayer.songsList = onlineSongList; // give list to player
-          return Container(
-            child: Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: ListView.builder(
-                itemCount: onlineSongList.length,
-                itemBuilder: (context, index) {
-                  return onlineSongListTile(
-                      songName: onlineSongList[index].songName,
-                      index: index,
-                      isSelected: index == _selectedIndex,
-                      callback: callBack);
-                },
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: StreamBuilder(
+        stream: firebaseQuery.getSongs(songType: widget.songType),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            List<QueryDocumentSnapshot> songs = snapshot.data.docs;
+            onlineSongList = List.generate(
+              snapshot.data.docs.length,
+              (index) => OnlineSong(
+                  artistName: songs[index].get("artist_name"),
+                  imageUrl: songs[index].get("image_url"),
+                  songLanguage: songs[index].get("song_language"),
+                  songName: songs[index].get("song_name"),
+                  songUrl: songs[index].get("song_url")),
+            );
+            onlineSongPlayer.songsList = onlineSongList; // give list to player
+            return Container(
+              child: Padding(
+                padding: EdgeInsets.only(top: 10.0),
+                child: ListView.builder(
+                  itemCount: onlineSongList.length,
+                  itemBuilder: (context, index) {
+                    return onlineSongListTile(
+                        songName: onlineSongList[index].songName,
+                        index: index,
+                        isSelected: index == _selectedIndex,
+                        callback: callBack);
+                  },
+                ),
               ),
-            ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: LoadingBouncingGrid.circle(
+                size: 100.0,
+              ),
+            );
+          } else if (!snapshot.hasData) {
+            return Center(
+              child: Text(
+                "No song",
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+          return Text(
+            "No song",
+            style: TextStyle(color: Colors.white),
           );
-        } else if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: LoadingBouncingGrid.circle(
-              size: 100.0,
-            ),
-          );
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: Text(
-              "No song",
-              style: TextStyle(color: Colors.white),
-            ),
-          );
-        }
-        return Text(
-          "No song",
-          style: TextStyle(color: Colors.white),
-        );
-      },
+        },
+      ),
     );
   }
 }
