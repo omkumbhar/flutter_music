@@ -7,6 +7,7 @@ class OnlineSongPlayer {
 
   static final OnlineSongPlayer _songPlayer = OnlineSongPlayer._internal();
   OnlineSongPlayer._internal();
+  
 
   factory OnlineSongPlayer() => _songPlayer;
 

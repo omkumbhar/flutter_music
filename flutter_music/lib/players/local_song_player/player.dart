@@ -8,6 +8,7 @@ class SongPlayer {
 
   static final SongPlayer _songPlayer = SongPlayer._internal();
   SongPlayer._internal();
+  
 
   factory SongPlayer() => _songPlayer;
 

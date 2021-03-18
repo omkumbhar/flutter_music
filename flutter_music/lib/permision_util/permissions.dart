@@ -6,6 +6,7 @@ class Permissions {
     await [Permission.camera, Permission.storage, Permission.microphone]
         .request();
   }
+  
 
   /*Request permission for Camera returns true is already granted
   * or user just granted the permission otherwise false*/

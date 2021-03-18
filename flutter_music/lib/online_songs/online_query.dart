@@ -9,6 +9,8 @@ class FirebaseQuery {
     collectionReference = firebaseFirestore.collection(collection ?? 'songs');
   }
 
+  
+
   CollectionReference getCollectionReference() => collectionReference;
 
   Stream<QuerySnapshot> getSongs({String songType}) async* {

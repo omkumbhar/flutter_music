@@ -7,6 +7,7 @@ Future<void> createDoc(User user) async {
     map["name"] = user.displayName;
     map["email"] = user.email;
     map["photoURL"] = user.photoURL;
+    
 
     return await firebaseFirestore
         .collection("Users")

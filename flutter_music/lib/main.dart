@@ -6,6 +6,9 @@ import 'constants.dart';
 import 'ui/auth_screen/auth_screen.dart';
 import 'ui/home.dart';
 
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

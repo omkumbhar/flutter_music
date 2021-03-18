@@ -7,6 +7,8 @@ class AudioQuery {
   static Future<List<SongInfo>> getLocalSongs() async {
     if (songs != null) {
       return songs;
+
+      
     } else {
       songs = await _audioQuery.getSongs(sortType: SongSortType.DISPLAY_NAME);
       return songs;

@@ -5,6 +5,8 @@ class OnlineSong {
   String songName;
   String songUrl;
 
+  
+
   OnlineSong(
       {this.artistName,
       this.imageUrl,

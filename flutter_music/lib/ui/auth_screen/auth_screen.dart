@@ -8,6 +8,7 @@ class AuthPage extends StatelessWidget {
   AuthPage(this.fun);
 
   void signIn() {
+    
     signInWithGoogle().then((user) {
       createDoc(user);
       firebaseUser = user;
