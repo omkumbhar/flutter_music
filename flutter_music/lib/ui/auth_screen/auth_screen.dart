@@ -7,6 +7,10 @@ class AuthPage extends StatelessWidget {
   final Function fun;
   AuthPage(this.fun);
 
+
+
+
+
   void signIn() {
     
     signInWithGoogle().then((user) {
