@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_music/constants.dart';
 
+
+
 Future<void> createDoc(User user) async {
   if (!await isUserPresent(user.uid)) {
     var map = Map<String, dynamic>();
@@ -21,6 +23,8 @@ Future<void> createDoc(User user) async {
         .catchError((error) => print("Failed to add user: $error"));
   }
 }
+
+
 
 Future<bool> isUserPresent(String id) async => await firebaseFirestore
     .collection("Users")
