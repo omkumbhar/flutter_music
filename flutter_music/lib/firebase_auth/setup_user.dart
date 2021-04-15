@@ -3,6 +3,7 @@ import 'package:flutter_music/constants.dart';
 
 
 
+
 Future<void> createDoc(User user) async {
   if (!await isUserPresent(user.uid)) {
     var map = Map<String, dynamic>();
